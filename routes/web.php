@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
+    Route::get('index','StaticPagesController@index')->name('home.index');
+    Route::get('about','StaticPagesController@about')->name('home.about');
+    Route::get('help','StaticPagesController@help')->name('home.help');
 });
