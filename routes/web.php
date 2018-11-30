@@ -11,8 +11,15 @@
 |
 */
 
+Route::get('/',function(){
+    return redirect('home/index');
+});
+
 Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
+
     Route::get('index','StaticPagesController@index')->name('home.index');
     Route::get('about','StaticPagesController@about')->name('home.about');
     Route::get('help','StaticPagesController@help')->name('home.help');
+
+    Route::get('signup','UserController@create')->name('home.signup');
 });
