@@ -23,4 +23,8 @@ Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
 
     Route::get('signup','UserController@create')->name('home.signup');
     Route::resource('user','UserController');
+
+    Route::get('login','SessionsController@create')->name('home.login');
+    Route::post('login','SessionsController@store')->name('home.login');
+    Route::delete('logout','SessionsController@destroy')->name('home.logout');
 });
