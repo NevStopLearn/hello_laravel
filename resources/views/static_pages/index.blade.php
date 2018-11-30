@@ -1,5 +1,5 @@
 @extends('layout.default')
-@section('title','laravel-首页')
+@section('title','首页')
 @section('content')
     <div class="jumbotron">
         <h1>Hello Laravel</h1>

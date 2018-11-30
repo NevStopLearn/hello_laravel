@@ -100,8 +100,17 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'name' => [
+            'required' => '用户名不能为空！',
+            'max' => '用户名不能大于50个字符！',
+        ],
+        'email' => [
+            'required' => '邮箱不能为空！',
+        ],
+        'password' => [
+            'required' => '密码不能为空！',
+            'max' => '密码不能小于6个字符！',
+            'confirmed' => '两次密码输入不相符！',
         ],
     ],
 

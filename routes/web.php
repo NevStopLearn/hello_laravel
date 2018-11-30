@@ -22,4 +22,5 @@ Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
     Route::get('help','StaticPagesController@help')->name('home.help');
 
     Route::get('signup','UserController@create')->name('home.signup');
+    Route::resource('user','UserController');
 });
