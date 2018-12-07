@@ -21,13 +21,15 @@ Route::group(['prefix'=>'home','namespace'=>'Home'],function(){
     Route::get('about','StaticPagesController@about')->name('home.about');
     Route::get('help','StaticPagesController@help')->name('home.help');
 
+    Route::get('login','SessionsController@create')->name('home.login');
+    Route::post('login','SessionsController@store')->name('home.login');
+    Route::delete('logout','SessionsController@destroy')->name('home.logout');
+
     Route::get('signup','UserController@create')->name('home.signup');
     Route::resource('user','UserController');
     Route::get('signup/confirm/{token}', 'UserController@confirmEmail')->name('home.confirm_email');
 
-    Route::get('login','SessionsController@create')->name('home.login');
-    Route::post('login','SessionsController@store')->name('home.login');
-    Route::delete('logout','SessionsController@destroy')->name('home.logout');
+    Route::resource('statuses','StatusesController',['only'=>['store','destroy']]);
 });
 
 
