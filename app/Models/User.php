@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
 use App\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -57,6 +58,51 @@ class User extends Authenticatable
 
     public function feed()
     {
-        return $this->statuses()->orderBy('created_at','desc');
+        //return $this->statuses()->orderBy('created_at','desc');
+        $user_ids = Auth::user()->followings->pluck('id')->toArray();
+        array_push($user_ids, Auth::user()->id);
+        return Status::whereIn('user_id', $user_ids)
+                            ->with('user')
+                            ->orderBy('created_at', 'desc');
+
+    }
+
+    /**
+     * 多对多关联参数的含义：
+     * 1.目标model::class(当前命名空间下)
+     * 2.中间表
+     * 3.中间表中当前model对应的关联字段
+     * 4.中间表中目标model对应的关联字段
+     */
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class,'followers','user_id','follower_id');
+    }
+
+    public function followings()
+    {
+        return $this->belongsToMany(User::class,'followers','follower_id','user_id');
+    }
+
+    public function follow($user_ids)
+    {
+        if(!is_array($user_ids)){
+            $user_ids = compact('user_ids');
+        }
+        $this->followings()->sync($user_ids,false);
+    }
+
+    public function unfollow($user_ids)
+    {
+        if(!is_array($user_ids)){
+            $user_ids = compact('user_ids');
+        }
+        $this->followings()->detach($user_ids);
+    }
+
+    public function isFollowing($user_id)
+    {
+        return $this->followings->contains($user_id);
     }
 }
